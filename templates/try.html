@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Recommendation System</title>
+</head>
+<body>
+    <h1>Meal Recommendation System</h1>
+    <form id="recommendationForm">
+        <label for="name">Enter Recipe Name:</label>
+        <input type="text" id="name" name="name" placeholder="Recipe Name" required>
+        <button type="submit">Get Recommendations</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('recommendationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var name = document.getElementById('name').value;
+            fetch('/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name: name})
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<h2>Recommended Recipes:</h2>';
+                data.forEach(recipe => {
+                    resultsDiv.innerHTML += `<p>${recipe.name} - Ingredients: ${recipe.ingredients}</p>`;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

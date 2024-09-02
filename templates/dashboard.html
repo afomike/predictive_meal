@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+            <h1>Welcome, {{ name }}!</h1>
+            <form method="POST">
+                <input type="text" name="recipe_name" placeholder="Enter a recipe name" required>
+                <button type="submit">Get Recommendations</button>
+            </form>
+
+            {% if recommendations is not none and not recommendations.empty %}
+            <h2>Recommended Recipes</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Recipe Name</th>
+                        <th>Ingredients</th>
+                        <th>Preparation Time (minutes)</th>
+                        <th>Steps</th>
+                        <!-- <th>Tags</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in recommendations.iterrows() %}
+                        <tr>
+                            <td>{{ row['name'] }}</td>
+                            <td>
+                                <ul>
+                                    {% for ingredient in row['ingredients'].split(',') %}
+                                        <li>{{ ingredient.strip() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ row['minutes'] }}</td>
+                            <td>
+                                <ul>
+                                    {% for step in row['steps'].split('. ') %}
+                                        <li>{{ step.strip() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <!-- <td>
+                                <ul>
+                                    {% for tag in row['tags'].split(',') %}
+                                        <li>{{ tag.strip() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td> -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No recommendations found.</p>
+        {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+   </div>
+</body>
+</html>
