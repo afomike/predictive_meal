@@ -105,6 +105,13 @@ def clean_text(text):
         cleaned_text = cleaned_text.replace("'", "")
     return cleaned_text
 
+# Define the nutrition labels
+nutrition_labels = ['calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat', 'fiber']
+
+# Function to map nutrition values to their respective labels
+def map_nutrition(nutrition_list):
+    return {nutrition_labels[i]: nutrition_list[i] for i in range(len(nutrition_labels))}
+
 
 def get_recommendations(name):
     if name in indices:
@@ -114,12 +121,12 @@ def get_recommendations(name):
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
         sim_scores = sim_scores[1:11]  # Exclude the recipe itself
         recipe_indices = [i[0] for i in sim_scores]
-        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags']].iloc[recipe_indices]
+        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags', 'nutrition']].iloc[recipe_indices]
     else:
         # Use RapidFuzz to find the closest matching recipe names
         matches = process.extract(name, recipes_df['name'], limit=10)
         matched_indices = [indices[match[0]] for match in matches]
-        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags', "nutrition"]].iloc[matched_indices]
+        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags', 'nutrition']].iloc[matched_indices]
 
     # Clean the relevant fields
     recommendations['name'] = recommendations['name'].apply(clean_text)
@@ -127,9 +134,10 @@ def get_recommendations(name):
     recommendations['minutes'] = recommendations['minutes'].apply(clean_text)
     recommendations['steps'] = recommendations['steps'].apply(clean_text)
     recommendations['tags'] = recommendations['tags'].apply(clean_text)
-    recommendations['nutrition'] = recommendations['nutrition'].apply(clean_text)
+    recommendations['nutrition'] = recommendations['nutrition'].apply(map_nutrition)  
 
     return recommendations
+
 
 
 # Routes
