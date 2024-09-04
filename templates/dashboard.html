@@ -22,7 +22,7 @@
                         <th>Ingredients</th>
                         <th>Preparation Time (minutes)</th>
                         <th>Steps</th>
-                        <!-- <th>Tags</th> -->
+                        <th>Nutrition</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,13 +44,13 @@
                                     {% endfor %}
                                 </ul>
                             </td>
-                            <!-- <td>
+                            <td>
                                 <ul>
-                                    {% for tag in row['tags'].split(',') %}
-                                        <li>{{ tag.strip() }}</li>
+                                    {% for nutrition in row['nutrition'].split(',') %}
+                                        <li>{{ nutrition.strip() }}</li>
                                     {% endfor %}
                                 </ul>
-                            </td> -->
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

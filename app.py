@@ -119,7 +119,7 @@ def get_recommendations(name):
         # Use RapidFuzz to find the closest matching recipe names
         matches = process.extract(name, recipes_df['name'], limit=10)
         matched_indices = [indices[match[0]] for match in matches]
-        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags']].iloc[matched_indices]
+        recommendations = recipes_df[['name', 'ingredients', 'minutes', 'steps', 'tags', "nutrition"]].iloc[matched_indices]
 
     # Clean the relevant fields
     recommendations['name'] = recommendations['name'].apply(clean_text)
@@ -127,6 +127,7 @@ def get_recommendations(name):
     recommendations['minutes'] = recommendations['minutes'].apply(clean_text)
     recommendations['steps'] = recommendations['steps'].apply(clean_text)
     recommendations['tags'] = recommendations['tags'].apply(clean_text)
+    recommendations['nutrition'] = recommendations['nutrition'].apply(clean_text)
 
     return recommendations
 
