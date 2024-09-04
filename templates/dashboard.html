@@ -46,10 +46,11 @@
                             </td>
                             <td>
                                 <ul>
-                                    {% for nutrition in row['nutrition'].split(',') %}
-                                        <li>{{ nutrition.strip() }}</li>
+                                    {% for key, value in row['nutrition'].items() %}
+                                        <li>{{ key | capitalize }}: {{ value }}</li>
                                     {% endfor %}
                                 </ul>
+                                
                             </td>
                         </tr>
                     {% endfor %}

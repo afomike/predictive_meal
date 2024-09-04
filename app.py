@@ -100,18 +100,28 @@ def clean_text(text):
         cleaned_text = text_str.replace("] [", ",")
         # Remove the outer brackets if needed
         cleaned_text = cleaned_text.replace("[", "").replace("]", "")
-                
-        # Remove the outer brackets if needed
+        # Remove single quotes if present
         cleaned_text = cleaned_text.replace("'", "")
     return cleaned_text
 
-# Define the nutrition labels
-nutrition_labels = ['calories', 'total_fat', 'sugar', 'sodium', 'protein', 'saturated_fat', 'fiber']
+def map_nutrition(nutrition_str):
+    labels = ["Calories", "Total Fat", "Sugar", "Sodium", "Protein", "Saturated Fat", "Fiber"]
+    mapped_nutrition = {}
 
-# Function to map nutrition values to their respective labels
-def map_nutrition(nutrition_list):
-    return {nutrition_labels[i]: nutrition_list[i] for i in range(len(nutrition_labels))}
+    # Split the string by commas and strip any extra spaces
+    nutrition_list = [item.strip() for item in nutrition_str.split(",")]
 
+    # Ensure the nutrition_list has exactly 7 elements
+    nutrition_list = (nutrition_list + ["N/A"] * len(labels))[:len(labels)]
+
+    # Map each value to the corresponding label
+    for i, value in enumerate(nutrition_list):
+        try:
+            mapped_nutrition[labels[i]] = float(value)
+        except ValueError:
+            mapped_nutrition[labels[i]] = "N/A"  # Handle non-numeric values
+
+    return mapped_nutrition
 
 def get_recommendations(name):
     if name in indices:
@@ -134,9 +144,11 @@ def get_recommendations(name):
     recommendations['minutes'] = recommendations['minutes'].apply(clean_text)
     recommendations['steps'] = recommendations['steps'].apply(clean_text)
     recommendations['tags'] = recommendations['tags'].apply(clean_text)
-    recommendations['nutrition'] = recommendations['nutrition'].apply(map_nutrition)  
+    recommendations['nutrition'] = recommendations['nutrition'].apply(clean_text)
+    recommendations['nutrition'] = recommendations['nutrition'].apply(map_nutrition)
 
     return recommendations
+
 
 
 
