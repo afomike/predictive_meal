@@ -156,7 +156,7 @@ def get_recommendations(name):
 
 # ── Routes ─────────────────────────────────────────────────────────────────────
 @app.route('/')
-@app.route('/home')  # keep /home working too
+@app.route('/index')  # keep /home working too
 def index():
     return render_template('index.html')
 
