@@ -1,65 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Flavr</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-            <h1>Welcome, {{ name }}!</h1>
-            <form method="POST">
-                <input type="text" name="recipe_name" placeholder="Enter a recipe name" required>
-                <button type="submit">Get Recommendations</button>
-            </form>
 
-            {% if recommendations is not none and not recommendations.empty %}
-            <h2>Recommended Recipes</h2>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Recipe Name</th>
-                        <th>Ingredients</th>
-                        <th>Preparation Time (minutes)</th>
-                        <th>Steps</th>
-                        <th>Nutrition</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for index, row in recommendations.iterrows() %}
-                        <tr>
-                            <td>{{ row['name'] }}</td>
-                            <td>
-                                <ul>
-                                    {% for ingredient in row['ingredients'].split(',') %}
-                                        <li>{{ ingredient.strip() }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>{{ row['minutes'] }}</td>
-                            <td>
-                                <ul>
-                                    {% for step in row['steps'].split('. ') %}
-                                        <li>{{ step.strip() }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    {% for key, value in row['nutrition'].items() %}
-                                        <li>{{ key | capitalize }}: {{ value }}</li>
-                                    {% endfor %}
-                                </ul>
-                                
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No recommendations found.</p>
-        {% endif %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-   </div>
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="{{ url_for('index') }}" class="nav-brand">Flavr<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('logout') }}" class="logout-link">↩ Log out</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+
+    <!-- ── Header ── -->
+    <div class="dashboard-header">
+      <h1>Hello, <span>{{ name }}</span> 👋</h1>
+      <span style="font-size:13px;color:var(--ink-muted);font-family:var(--font-mono);">What are you cooking today?</span>
+    </div>
+
+    <!-- ── Search Form ── -->
+    <form method="POST" class="search-form">
+      <input type="text" name="recipe_name" placeholder="e.g. Jollof Rice, Pasta, Chicken Stew…" required>
+      <button type="submit">Find Recipes →</button>
+    </form>
+
+    <!-- ── Results ── -->
+    {% if recommendations is not none and not recommendations.empty %}
+      <h2 class="section-heading">Recommended Recipes</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipe Name</th>
+              <th>Ingredients</th>
+              <th>Prep Time</th>
+              <th>Steps</th>
+              <th>Nutrition</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for index, row in recommendations.iterrows() %}
+            <tr>
+              <td>{{ row['name'] }}</td>
+              <td>
+                <ul>
+                  {% for ingredient in row['ingredients'].split(',') %}
+                    <li>{{ ingredient.strip() }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td>
+                <span style="font-family:var(--font-mono);font-size:13px;color:var(--terracotta);font-weight:500;">
+                  {{ row['minutes'] }} min
+                </span>
+              </td>
+              <td>
+                <ul>
+                  {% for step in row['steps'].split('. ') %}
+                    <li>{{ step.strip() }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {% for key, value in row['nutrition'].items() %}
+                    <li><strong>{{ key | capitalize }}:</strong> {{ value }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    {% else %}
+      <div class="empty-state">
+        <p>No recommendations yet — search for a recipe above to get started.</p>
+      </div>
+    {% endif %}
+
+  </div>
+
+  <footer>
+    <p>© 2025 Flavr · Powered by ML Content-Based Filtering · <a href="{{ url_for('logout') }}">Log out</a></p>
+  </footer>
+
 </body>
 </html>

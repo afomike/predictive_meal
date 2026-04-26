@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — Flavr</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="brand">
+        <a href="{{ url_for('index') }}" class="brand-name">Flavr.</a>
+        <p style="font-size:13px;color:var(--ink-muted);">Your personal recipe engine</p>
+      </div>
+
+      <h1>Welcome back</h1>
+      <p class="auth-subtitle">Log in to see your recommendations</p>
+
+      <form method="POST">
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" style="width:100%;margin-top:0.25rem;">Log in →</button>
+      </form>
+
+      <div class="divider">or</div>
+
+      <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up for free</a></p>
     </div>
+  </div>
 </body>
 </html>

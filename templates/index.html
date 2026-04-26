@@ -1,14 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flavr — Smart Meal Recommendations</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Meal Recommendation System</h1>
-        <p><a href="{{ url_for('login') }}">Login</a> or <a href="{{ url_for('signup') }}">Sign Up</a></p>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="{{ url_for('index') }}" class="nav-brand">Flavr<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="{{ url_for('login') }}">Log in</a></li>
+      <li><a href="{{ url_for('signup') }}" class="btn-nav">Get Started</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <span class="hero-eyebrow">✦ AI-Powered Meal Discovery</span>
+    <h1>Discover recipes you'll<br><em>actually love</em></h1>
+    <p class="hero-sub">
+      Type any dish or ingredient — our recommendation engine finds the perfect recipes tailored to your taste, matched by nutrition, time, and flavour profile.
+    </p>
+    <div class="hero-cta-group">
+      <a href="{{ url_for('signup') }}" class="btn-primary">Start for Free →</a>
+      <a href="{{ url_for('login') }}" class="btn-secondary">Log in</a>
     </div>
+  </section>
+
+  <!-- ── How It Works ── -->
+  <section class="steps-section" id="how-it-works">
+    <span class="section-label">How it works</span>
+    <h2 class="section-title">From craving to recipe in seconds</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <span class="step-icon">👤</span>
+        <div class="step-title">Create your account</div>
+        <p class="step-desc">Sign up in under 30 seconds — no credit card, no friction.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <span class="step-icon">🔍</span>
+        <div class="step-title">Enter a recipe name</div>
+        <p class="step-desc">Type any dish you love or want to explore — our engine handles the rest.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <span class="step-icon">🤖</span>
+        <div class="step-title">AI finds matches</div>
+        <p class="step-desc">The ML model analyses ingredients, prep time, and nutrition to rank best matches.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">04</span>
+        <span class="step-icon">🍽️</span>
+        <div class="step-title">Cook with confidence</div>
+        <p class="step-desc">Get full ingredients, step-by-step instructions, and nutrition info instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Feature Strip ── -->
+  <section class="features-strip">
+    <span class="section-label">Why Flavr</span>
+    <h2 class="section-title">Built for real cooks</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">Instant Recommendations</div>
+        <p class="feature-desc">Results in under a second powered by content-based filtering.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🥗</span>
+        <div class="feature-title">Full Nutrition Data</div>
+        <p class="feature-desc">Every recipe comes with calories, macros, and dietary flags.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📋</span>
+        <div class="feature-title">Step-by-Step Guide</div>
+        <p class="feature-desc">Clear, structured instructions so nothing gets missed.</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <div class="feature-title">Private & Secure</div>
+        <p class="feature-desc">Your account and data are protected with hashed credentials.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>© 2025 Flavr · Built with Python, Flask & Machine Learning · <a href="{{ url_for('login') }}">Get started</a></p>
+  </footer>
+
 </body>
 </html>
